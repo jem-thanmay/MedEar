@@ -1,8 +1,8 @@
 ---
 title: MedEar
 emoji: 🏥
-colorFrom: teal
-colorTo: green
+colorFrom: green
+colorTo: blue
 sdk: docker
 pinned: false
 ---
@@ -16,12 +16,8 @@ Model hosted on Hugging Face:
 https://huggingface.co/ssevyana/medear-whisper-medical
 
 ## Setup
-```bash
-git clone https://github.com/shashanksnaik07/Medear.git
-cd Medear
-uvicorn carecaller.api.main:app --port 8000
-open index.html
-```
+See full README on GitHub:
+https://github.com/shashanksnaik07/Medear
 
 ## API
 POST /transcribe — upload audio, get structured medical JSON
