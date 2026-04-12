@@ -1,0 +1,12 @@
+fastapi==0.104.0
+uvicorn
+python-multipart
+openai-whisper
+static-ffmpeg
+soundfile
+numpy==1.26.4
+transformers==4.36.2
+tokenizers==0.15.2
+accelerate==0.26.1
+huggingface_hub
+jiwer
