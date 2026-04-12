@@ -1,10 +1,13 @@
+import sys
+import os
+sys.path.insert(0, os.path.dirname(__file__))
 
 from fastapi import FastAPI, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
-from twilio.twiml.voice_response import VoiceResponse, Gather
-import tempfile, os, shutil
-import sys, os
-sys.path.insert(0, os.path.dirname(__file__))
+from fastapi.responses import JSONResponse
+import tempfile
+import shutil
+
 from pipeline import run_pipeline
 
 app = FastAPI(title="MedEar API", version="1.0.0")
@@ -12,17 +15,21 @@ app = FastAPI(title="MedEar API", version="1.0.0")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
 
 @app.get("/")
 def root():
     return {"status": "MedEar API running", "version": "1.0.0"}
 
+
 @app.get("/health")
 def health():
     return {"status": "healthy"}
+
 
 @app.post("/transcribe")
 async def transcribe(file: UploadFile = File(...)):
@@ -36,11 +43,15 @@ async def transcribe(file: UploadFile = File(...)):
     except Exception as e:
         return {"success": False, "error": str(e)}
     finally:
-        os.unlink(tmp_path)
+        try:
+            os.unlink(tmp_path)
+        except Exception:
+            pass
+
 
 @app.post("/twilio/incoming")
 async def twilio_incoming():
-    """Twilio webhook — answers the call and asks caller to speak"""
+    from twilio.twiml.voice_response import VoiceResponse, Gather
     response = VoiceResponse()
     gather = Gather(
         input="speech",
@@ -57,20 +68,18 @@ async def twilio_incoming():
     response.append(gather)
     return str(response)
 
+
 @app.post("/twilio/process")
 async def twilio_process(SpeechResult: str = ""):
-    """Twilio sends speech result — we run NER and read back"""
+    from twilio.twiml.voice_response import VoiceResponse
+    from pipeline import extract_entities
     response = VoiceResponse()
 
     if not SpeechResult:
         response.say("Sorry, I did not catch that. Please call back.", voice="alice")
         return str(response)
 
-    # Run NER on speech result
-    from pipeline import extract_entities
     entities = extract_entities(SpeechResult)
-
-    # Build spoken response
     parts = []
     if entities["drugs"]:
         parts.append("Drugs detected: " + ", ".join(entities["drugs"]))
@@ -78,14 +87,11 @@ async def twilio_process(SpeechResult: str = ""):
         parts.append("Symptoms: " + ", ".join(entities["symptoms"]))
     if entities["dosages"]:
         parts.append("Dosages: " + ", ".join(entities["dosages"]))
-    if entities["frequency"]:
-        parts.append("Frequency: " + ", ".join(entities["frequency"]))
+    if entities.get("allergies"):
+        parts.append("Allergies: " + ", ".join(entities["allergies"]))
 
-    if parts:
-        spoken = ". ".join(parts) + ". Thank you for using MedEar."
-    else:
-        spoken = ("I heard: " + SpeechResult +
-                  ". No medical entities were detected. Thank you.")
+    spoken = ". ".join(parts) + ". Thank you for using MedEar." if parts else \
+        "I heard: " + SpeechResult + ". No medical entities detected. Thank you."
 
     response.say(spoken, voice="alice")
     return str(response)
