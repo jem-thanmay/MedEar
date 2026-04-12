@@ -11,7 +11,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY --chown=user . /app
 
-RUN python -c "import whisper; whisper.load_model('small'); print('Whisper downloaded')"
+RUN python -c "import whisper; whisper.load_model('small'); print('Base Whisper downloaded')"
+
+RUN python -c "from huggingface_hub import snapshot_download; snapshot_download(repo_id='ssevyana/medear-whisper-medical', local_dir='carecaller/models/whisper-medical'); print('MedEar model downloaded')"
 
 EXPOSE 7860
 
