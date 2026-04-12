@@ -10,3 +10,4 @@ tokenizers==0.15.2
 accelerate==0.26.1
 huggingface_hub
 jiwer
+twilio
