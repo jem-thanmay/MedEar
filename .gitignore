@@ -1,0 +1,6 @@
+carecaller/models/
+carecaller/audio/
+__pycache__/
+*.pyc
+.DS_Store
+*.zip
