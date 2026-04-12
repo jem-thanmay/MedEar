@@ -11,11 +11,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY --chown=user . /app
 
-RUN python -c "
-import whisper
-whisper.load_model('small')
-print('Base Whisper downloaded')
-"
+RUN python -c "import whisper; whisper.load_model('small'); print('Whisper downloaded')"
 
 EXPOSE 7860
 
