@@ -1,6 +1,4 @@
-carecaller/models/
-carecaller/audio/
-__pycache__/
+carecaller/models/whisper-medical/model.safetensors
+**/.DS_Store
+**/__pycache__
 *.pyc
-.DS_Store
-*.zip

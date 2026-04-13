@@ -1,26 +1,10 @@
----
-title: MedEar
-emoji: 🏥
-colorFrom: green
-colorTo: blue
-sdk: docker
-pinned: false
----
-
-<div align="center">
-
 # 🏥 MedEar
 ### Robust Medical Speech-to-Text for Telephony
 
-[![Live Demo](https://img.shields.io/badge/🤗%20Live%20Demo-HuggingFace%20Spaces-blue)](https://huggingface.co/spaces/ssevyana/MedEar)
 [![Model](https://img.shields.io/badge/🤗%20Model-medear--whisper--medical-teal)](https://huggingface.co/ssevyana/medear-whisper-medical)
 [![GitHub](https://img.shields.io/badge/GitHub-Medear-black)](https://github.com/shashanksnaik07/Medear)
 [![Python](https://img.shields.io/badge/Python-3.10-blue)](https://python.org)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.104-green)](https://fastapi.tiangolo.com)
-
-**Built at VillageHacks 2026 · CareCaller AI Track**
-
-</div>
 
 ---
 
@@ -36,14 +20,6 @@ MedEar:           "I take lisinopril and atorvastatin"    ✅
 ```
 
 These are not cosmetic errors. A care team acting on "Addervastatin" has no idea what medication this patient is on. MedEar was built to solve this.
-
----
-
-## Demo
-
-**Try it live:** [huggingface.co/spaces/ssevyana/MedEar](https://huggingface.co/spaces/ssevyana/MedEar)
-
-Upload any healthcare call recording or use the live microphone — MedEar extracts structured medical data in seconds.
 
 ---
 
@@ -90,17 +66,16 @@ MedEar uses a three-layer pipeline:
 
 ## Results
 
-<table>
-<tr><th>Metric</th><th>Score</th></tr>
-<tr><td>Average WER improvement</td><td><b>+25%</b></td></tr>
-<tr><td>Best case WER improvement</td><td><b>+50%</b></td></tr>
-<tr><td>Entity accuracy (8 accents, 8kHz telephony)</td><td><b>88.8%</b> (71/80)</td></tr>
-<tr><td>Drug names covered</td><td><b>500+</b></td></tr>
-<tr><td>Phonetic corrections</td><td><b>321</b></td></tr>
-<tr><td>Training sentences</td><td><b>483</b></td></tr>
-<tr><td>Final training loss</td><td><b>0.0027</b></td></tr>
-<tr><td>Telephony standard</td><td><b>8kHz G.711 μ-law</b></td></tr>
-</table>
+| Metric | Score |
+|--------|-------|
+| Average WER improvement | **+25%** |
+| Best case WER improvement | **+50%** |
+| Entity accuracy (8 accents, 8kHz telephony) | **88.8%** (71/80) |
+| Drug names covered | **500+** |
+| Phonetic corrections | **321** |
+| Training sentences | **483** |
+| Final training loss | **0.0027** |
+| Telephony standard | **8kHz G.711 μ-law** |
 
 ---
 
@@ -122,7 +97,7 @@ MedEar uses a three-layer pipeline:
 
 ## Accent Coverage
 
-All tests on 8kHz G.711 μ-law telephony audio — the exact standard used by CareCaller.
+All tests on 8kHz G.711 μ-law telephony audio.
 
 | Accent | Male | Female |
 |--------|------|--------|
@@ -168,8 +143,6 @@ We systematically tested Whisper on all 500+ drug names across 8 accents. For ev
 
 ## Setup
 
-### Quick Start
-
 ```bash
 # 1. Clone
 git clone https://github.com/shashanksnaik07/Medear.git
@@ -204,14 +177,14 @@ open index.html
 
 ### GET /health
 ```bash
-curl https://ssevyana-medear.hf.space/health
+curl http://localhost:8000/health
 # {"status": "healthy"}
 ```
 
 ### POST /transcribe
 
 ```bash
-curl -X POST https://ssevyana-medear.hf.space/transcribe \
+curl -X POST http://localhost:8000/transcribe \
   -F "file=@patient_call.mp3"
 ```
 
@@ -253,7 +226,7 @@ Medear/
 │   └── models/
 │       └── whisper-medical/ # Fine-tuned model (download from HuggingFace)
 ├── index.html               # Dashboard UI
-├── Dockerfile               # HuggingFace Spaces deployment
+├── Dockerfile               # Deployment
 ├── requirements.txt
 └── README.md
 ```
@@ -278,17 +251,6 @@ Medear/
 
 ---
 
-## Dashboard Features
-
-- 📁 Upload audio files (MP3, WAV, M4A, OGG, FLAC)
-- 🎙️ Live microphone recording with animated waveform
-- 📝 Side-by-side Base Whisper vs MedEar transcript comparison
-- 🏷️ Color-coded entity tags (drugs, symptoms, dosages, allergies, vitals)
-- 📊 WER improvement bar chart
-- 🟢 Real-time API health indicator
-
----
-
 ## Tech Stack
 
 | Component | Technology |
@@ -299,16 +261,11 @@ Medear/
 | Audio Processing | FFmpeg + audioop (G.711 μ-law) |
 | TTS for training data | edge-tts (Microsoft Neural, 8 voices) |
 | API | FastAPI + uvicorn |
-| Frontend | Vanilla HTML/JS (zero dependencies) |
-| Deployment | Docker + HuggingFace Spaces |
+| Frontend | Vanilla HTML/JS |
 | Metrics | jiwer (WER + CER) |
 
 ---
 
-<div align="center">
+## Author
 
-**Built at VillageHacks 2026 | CareCaller AI Track**
-
-[Live Demo](https://huggingface.co/spaces/ssevyana/MedEar) · [Model](https://huggingface.co/ssevyana/medear-whisper-medical) · [GitHub](https://github.com/shashanksnaik07/Medear)
-
-</div>
+**Shashank Sevya Naik**
