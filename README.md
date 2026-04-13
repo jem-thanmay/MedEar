@@ -158,7 +158,7 @@ pip install huggingface_hub jiwer
 python -c "
 from huggingface_hub import snapshot_download
 snapshot_download(
-    repo_id='ssevyana/medear-whisper-medical',
+    repo_id='tjembige/medear-whisper-medical',
     local_dir='carecaller/models/whisper-medical'
 )
 print('Model downloaded')
