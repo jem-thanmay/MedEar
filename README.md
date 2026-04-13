@@ -145,7 +145,7 @@ We systematically tested Whisper on all 500+ drug names across 8 accents. For ev
 
 ```bash
 # 1. Clone
-git clone https://github.com/shashanksnaik07/Medear.git
+git clone https://github.com/jem-thanmay/MedEar.git
 cd Medear
 
 # 2. Install dependencies
